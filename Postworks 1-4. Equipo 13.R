@@ -180,13 +180,23 @@ Multmarg1 <- outer(X = margVisitante1, Y = margLocal1, FUN = "*")
 #Comparación entre cocientes originales y cocientes de nuevos datos
 Cocientes; Cocientes1
 
-# Menciona en cuáles casos le parece razonable suponer que los cocientes de 
-# la tabla en el punto 1, son iguales a 1 (en tal caso tendríamos independencia 
-# de las variables aleatorias X y Y).
+#Distribución de los cocientes
+par(mfrow = c(1, 2))
+hist(Cocientes, main = "Histograma de\nCocientes originales", xlab = "Cocientes originales", ylab = "Frecuencia", col = "tan3")
+hist(Cocientes1, main = "Histograma de\nCocientes nuevos", xlab = "Cocientes nuevos", ylab = "Frecuencia", col = "rosybrown3")
+#   Al analizar los histogramas de los cocientes, se observa que estos cocientes tienden 
+#   a una distribución de tipo exponencial, cuando se grafican de manera individual.  
+
+# ¿En cuáles casos parece razonable suponer que los cocientes de la tabla
+# en el punto 1, son iguales a 1 (en tal caso tendríamos independencia 
+# de las variables aleatorias X y Y)?
 # Respuesta:
-#   Despues de hacer el proceso de bootstraping varias veces y comparar las
-#   tablas de cocientes resultantes con la tabla que salio del dataframe real, 
-#   pudimos observar el siguiente compartamiento:
-#   - Cuando la cantidad de goles de "x" y "y" en un partido es menor, el valor del
-#     cociente tiende a ser cercano a uno, pero en medida que que los goles por partido
-#     van incrementando, el valor del cociente se va haciendo cada vez mas volatil.
+#   Después de hacer el proceso de bootstraping varias veces y comparar los cocientes
+#   resultantes con los cocientes obtenidos a partir de los datos originales, se
+#   observó el siguiente compartamiento:
+#   - Cuando la cantidad de goles de "x" y "y" en un partido es pequeño, el valor del
+#     cociente tiende a ser cercano a uno, mientras que,
+#   - a medida de que los goles de "x" y "y" por partido van incrementando, el valor
+#     del cociente se va haciendo cada vez mas volátil, alejándose del valor uno. 
+#     Por ejemplo, cuando se tienen 8 goles por parte de un equipo, el coeficiente suele ser 
+#     o muy pequeño (en el orden de 0.001) o muy grande (mayor a 2).
