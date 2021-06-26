@@ -4,6 +4,7 @@ library(dplyr) # Para funciones select y mutate
 library(ggplot2) # Para graficar las probabilidades
 library(plotly) # Para graficas interactivas que permitan ver mejor el valor
 library(RColorBrewer) # Para el color del Heatmap
+library(rsample) # Para función bootstrap
 
 # ------------------------------------------------------------------------------
 
@@ -150,42 +151,67 @@ ggplotly(conjAmbosGraf)
 Multmarg <- outer(X = margVisitante, Y = margLocal, FUN = "*")
 (Cocientes <- conjAmbos/Multmarg)
 
-#Procedimiento de bootstrap
-GolesLocal <- sample(Ligas1720$FTHG,length(Ligas1720$FTHG),replace = TRUE)
-GolesVisitante <- sample(Ligas1720$FTAG,length(Ligas1720$FTAG),replace = TRUE)
+#Procedimiento de bootstrap: Nuevas muestras de los goles.
+Goles<-subset(Ligas1720,select = c(4,5))
+set.seed(123)
+Muestras<-bootstraps(Goles,1000)
 
-#Probabilidades de nuevos datos:
-#Probabilidad marginal Local
-freqLocal1 <- table(GolesLocal)
-(margLocal1 <- freqLocal1 / sum(freqLocal1))
-# Comprobando que la suma de las probabilidades = 1.
-sum(margLocal1)
+#Listas para almacenar los dataframes y las tablas de cocientes.
+ListaMuestras<-list()
+ListaCocientes<-list()
 
-#Probabilidad marginal Visitante
-freqVisitante1 <- table(GolesVisitante)
-(margVisitante1 <- freqVisitante1 / sum(freqVisitante1))
-# Comprobando que la suma de las probabilidades = 1.
-sum(margVisitante1)
+#Vectores para almacenar los valores más comunes: marcadores 0-0, 1-0 y 0-1.
+valor00=numeric(1000)
+valor10=numeric(1000)
+valor01=numeric(1000)
 
-#Probabilidad conjunta
-freqAmbos1 <- table(GolesVisitante, GolesLocal)
-(conjAmbos1 <- freqAmbos1 / sum(freqAmbos1))
-# Comprobando que la suma de las probabilidades = 1.
-sum(conjAmbos1)
+for (i in 1:1000){
+  #Cada dataframe se coloca en una lista.
+  ListaMuestras[[i]]=as.data.frame(Muestras$splits[[i]])
+  #Calculo de tablas de cocientes y almacenamiento en una lista.
+  ListaCocientes[[i]]=(t(prop.table(table(ListaMuestras[[i]])))/+
+                         t(outer(table(ListaMuestras[[i]]$FTHG)/length(ListaMuestras[[i]]$FTHG),+
+                                   table(ListaMuestras[[i]]$FTAG)/length(ListaMuestras[[i]]$FTAG)))) 
+  
+  #Extracción de los valores más comunes: marcadores 0-0 [1], 1-0 [8] y 0-1 [2]
+  valor00[i]=ListaCocientes[[i]][1]
+  valor10[i]=ListaCocientes[[i]][8]
+  valor01[i]=ListaCocientes[[i]][2]
+}
 
-#Tabla de cocientes de nuevos datos
-Multmarg1 <- outer(X = margVisitante1, Y = margLocal1, FUN = "*")
-(Cocientes1 <- conjAmbos1/Multmarg1)
+#Gráficas de la distribución de medias:
+(hist00<-as.data.frame(valor00) %>% ggplot(aes(valor00)) +
+    geom_histogram(bins=50,colour="black",fill="steelblue") +
+    ggtitle("Distribución de cocientes\npara marcador de 0-0") +
+    xlab("Medias") + 
+    ylab("Frecuencia") + 
+    geom_vline(aes(xintercept=mean(valor00)),color="orangered1", linetype="dashed", size=1) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    theme_minimal())
+#Gráfico interactivo para observar mejor los valores.
+ggplotly(hist00)
 
-#Comparación entre cocientes originales y cocientes de nuevos datos
-Cocientes; Cocientes1
+(hist10<-as.data.frame(valor10) %>% ggplot(aes(valor10)) +
+    geom_histogram(bins=50,colour="black",fill="steelblue") +
+    ggtitle("Distribución de cocientes\npara marcador de 1-0") +
+    xlab("Medias") + 
+    ylab("Frecuencia") + 
+    geom_vline(aes(xintercept=mean(valor10)),color="orangered1", linetype="dashed", size=1) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    theme_minimal())
+#Gráfico interactivo para observar mejor los valores.
+ggplotly(hist10)
 
-#Distribución de los cocientes
-par(mfrow = c(1, 2))
-hist(Cocientes, main = "Histograma de\nCocientes originales", xlab = "Cocientes originales", ylab = "Frecuencia", col = "tan3")
-hist(Cocientes1, main = "Histograma de\nCocientes nuevos", xlab = "Cocientes nuevos", ylab = "Frecuencia", col = "rosybrown3")
-#   Al analizar los histogramas de los cocientes, se observa que estos cocientes tienden 
-#   a una distribución de tipo exponencial, cuando se grafican de manera individual.  
+(hist01<-as.data.frame(valor01) %>% ggplot(aes(valor01)) +
+    geom_histogram(bins=50,colour="black",fill="steelblue") +
+    ggtitle("Distribución de cocientes\npara marcador de 0-1") +
+    xlab("Medias") + 
+    ylab("Frecuencia") + 
+    geom_vline(aes(xintercept=mean(valor01)),color="orangered1", linetype="dashed", size=1) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    theme_minimal())
+#Gráfico interactivo para observar mejor los valores.
+ggplotly(hist01)  
 
 # ¿En cuáles casos parece razonable suponer que los cocientes de la tabla
 # en el punto 1, son iguales a 1 (en tal caso tendríamos independencia 
@@ -200,3 +226,6 @@ hist(Cocientes1, main = "Histograma de\nCocientes nuevos", xlab = "Cocientes nue
 #     del cociente se va haciendo cada vez mas volátil, alejándose del valor uno. 
 #     Por ejemplo, cuando se tienen 8 goles por parte de un equipo, el coeficiente suele ser 
 #     o muy pequeño (en el orden de 0.001) o muy grande (mayor a 2).
+# Entonces, en los casos que se considera que los cocientes de la tabla del punto 1
+# tienen un valor de 1, son los marcadores de 0-0, 1-0 y 0-1, e incluso se pueden considerar
+# los marcadores cercanos.
