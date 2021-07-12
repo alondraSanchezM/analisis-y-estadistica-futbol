@@ -461,4 +461,4 @@ rm(conetion)
 #POSTWORK 8
 
 # Para el postwork 8 se genera un dashboard en un solo archivo app.R. 
-# Link al archivo: 
+# Link al archivo: https://github.com/AEscajeda/Programacion-y-Estadistica-con-R/tree/main/Postwork%208
