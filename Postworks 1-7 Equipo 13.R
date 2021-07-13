@@ -46,12 +46,12 @@ datosLiga <- datosLiga[ ,c(6:7)]
 # Con base en estas gráficas, se posible plantear la siguiente hipótesis:
 # "El ser local influye en el resultado de un partido". 
 
-barplot(margLocal, main="Probabilidad marginal de goles/nanotados equipo local",
+barplot(margLocal, main="Probabilidad marginal de goles\nanotados equipo local",
         xlab="Número de goles",
         ylab="Probabilidad",
         col.main="black", col.lab="chocolate4")
 
-barplot(margVisitante, main="Probabilidad marginal de goles/nanotados equipo visitante",
+barplot(margVisitante, main="Probabilidad marginal de goles\nanotados equipo visitante",
         xlab="Número de goles",
         ylab="Probabilidad",
         col.main="black", col.lab="chocolate4")
