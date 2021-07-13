@@ -19,9 +19,9 @@ datosLiga <- read.csv("https://www.football-data.co.uk/mmz4281/1920/SP1.csv")
 datosLiga <- datosLiga[ ,c(6:7)]
 
 #Tablas de frecuencias relativas.
-(freqLocal<-table(datosLiga$FTHG))
-(freqVisitante<-table(datosLiga$FTAG))
-(freqAmbos<-table(datosLiga))
+(freqLocal <- table(datosLiga$FTHG))
+(freqVisitante <- table(datosLiga$FTAG))
+(freqAmbos <- table(datosLiga))
 
 #Probabilidad (marginal) de que el equipo que juega en casa anote x goles.
 (margLocal <- freqLocal / sum(freqLocal))
@@ -31,7 +31,7 @@ datosLiga <- datosLiga[ ,c(6:7)]
 
 #Probabilidad (conjunta) de que el equipo que juega en casa anote x goles y 
 #el equipo que juega como visitante anote y goles.
-(conjAmbos<-freqAmbos/sum(freqAmbos))
+(conjAmbos <- freqAmbos/sum(freqAmbos))
 
 # A partir de los datos resultados obtenidos se observa lo siguiente: 
 #   - Los resultados más probables son los que involucran menos goles, a apartir
@@ -46,12 +46,12 @@ datosLiga <- datosLiga[ ,c(6:7)]
 # Con base en estas gráficas, se posible plantear la siguiente hipótesis:
 # "El ser local influye en el resultado de un partido". 
 
-barplot(margLocal, main="Probabilidad de goles anotados equipo local",
+barplot(margLocal, main="Probabilidad marginal de goles/nanotados equipo local",
         xlab="Número de goles",
         ylab="Probabilidad",
         col.main="black", col.lab="chocolate4")
 
-barplot(margVisitante, main="Probabilidad de goles anotados equipo visitante",
+barplot(margVisitante, main="Probabilidad marginal de goles/nanotados equipo visitante",
         xlab="Número de goles",
         ylab="Probabilidad",
         col.main="black", col.lab="chocolate4")
