@@ -43,9 +43,6 @@ datosLiga <- datosLiga[ ,c(6:7)]
 # Entonces, ¿el resultado de un partido es influenciado por quién juega de local y de
 # visitante? 
 
-# Con base en estas gráficas, se posible plantear la siguiente hipótesis:
-# "El ser local influye en el resultado de un partido". 
-
 barplot(margLocal, main="Probabilidad marginal de goles\nanotados equipo local",
         xlab="Número de goles",
         ylab="Probabilidad",
@@ -56,6 +53,10 @@ barplot(margVisitante, main="Probabilidad marginal de goles\nanotados equipo vis
         ylab="Probabilidad",
         col.main="black", col.lab="chocolate4")
 
+# Con base en estas gráficas y a las probabilidades obtenidas, 
+# es posible plantear la siguiente hipótesis:
+# "La media de goles anotados por equipos locales es mayor que la media 
+#  de goles anotados por equipos visitantes". 
 
 # ------------------------------------------------------------------------------
 
