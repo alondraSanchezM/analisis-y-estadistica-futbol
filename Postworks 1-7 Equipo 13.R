@@ -217,7 +217,7 @@ Muestras<-bootstraps(Goles,1000)
 ListaMuestras<-list()
 ListaCocientes<-list()
 
-#Vectores para almacenar los valores más comunes: marcadores 0-0, 1-0 y 0-1.
+#Vectores para almacenar los valores con mayor independencia: marcadores 0-0, 1-0 y 0-1.
 valor00=numeric(1000)
 valor10=numeric(1000)
 valor01=numeric(1000)
@@ -230,7 +230,7 @@ for (i in 1:1000){
                          t(outer(table(ListaMuestras[[i]]$FTHG)/length(ListaMuestras[[i]]$FTHG),+
                                    table(ListaMuestras[[i]]$FTAG)/length(ListaMuestras[[i]]$FTAG)))) 
   
-  #Extracción de los valores más comunes: marcadores 0-0 [1], 1-0 [8] y 0-1 [2]
+  #Extracción de los valores con mayor independencia: marcadores 0-0 [1], 1-0 [8] y 0-1 [2]
   valor00[i]=ListaCocientes[[i]][1]
   valor10[i]=ListaCocientes[[i]][8]
   valor01[i]=ListaCocientes[[i]][2]
