@@ -6,6 +6,8 @@ library(RColorBrewer) # Color del Heatmap
 library(rsample)      # Uso de función bootstrap
 library(fbRanks)      # Uso de la función create.fbRanks.dataframes
 library(mongolite)    # Conexión de MongoDB con R 
+library(zoo)          # Series de tiempo irregulares
+library(TSstudio)     # Gráfica de series de tiempo
 
 # ------------------------------------------------------------------------------
 
@@ -408,9 +410,10 @@ promedio.mes <- promedio.mes[-c(31, 97, 98, 99, 100, 101),]
 tspromedio.mes <- read.zoo(promedio.mes, col.names = c("fecha", "promedio.goles"))
 
 #Gráfica de la serie de tiempo
-plot(tspromedio.mes, xlab = "Tiempo", ylab = "Promedio de goles", 
-     main = "Serie de Promedio de goles por mes",
-     sub = "Serie mensual: Agosto 2010 a Diciembre 2019", col = "plum4", lwd = 2)
+ts_plot(tspromedio.mes, Xtitle =  "Tiempo", Ytitle =  "Promedio de goles", 
+        title =  "Serie de Promedio de goles por mes",
+        line.mode =  "lines+markers",
+        slider = T,Xgrid = T, Ygrid = T)
 
 # OBSERVACIONES: 
 # - El mes con menor promedio de goles fue agosto del 2015, en el inicio de la 
@@ -418,11 +421,10 @@ plot(tspromedio.mes, xlab = "Tiempo", ylab = "Promedio de goles",
 # - Así mismo, se observan periodos en los cuales el promedio de goles disminuye
 # e incrementa.
 
-# - Entre los años 2015-2016 se encontró el promedio de goles más bajo,
+# - En Agosto 2015 se encontró el promedio de goles más bajo,
 # con un promedio de 1.75.
 min(tspromedio.mes)
-# - Mientras que, entre los años 2016 y 2018, se alcanzó un promedio de hasta 
-# 3.38 goles.
+# - Mientras que en Octubre 2016 se alcanzó un promedio máximo de 3.38 goles.
 max(tspromedio.mes)
 
 
