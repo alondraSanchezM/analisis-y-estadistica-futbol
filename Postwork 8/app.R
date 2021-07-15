@@ -11,7 +11,7 @@ ui <- fluidPage(
 
     dashboardPage(
         
-        dashboardHeader(title = "Dashboard de la liga española de fútbol"),
+        dashboardHeader(title = "Postwork 8"),
         
         dashboardSidebar(
             
@@ -31,11 +31,11 @@ ui <- fluidPage(
                 # Gráfico de barras
                 tabItem(tabName = "barras",
                         fluidRow(
-                            titlePanel("Goles anotados"), 
+                            titlePanel("Goles anotados por equipo"), 
                             selectInput("x", "Seleccione el valor de X",
                                         choices = c("Goles Local"="home.score",
                                                     "Goles Visitante" = "away.score")),
-                            box(plotOutput("plot1", width = 800)),
+                            box(plotOutput("plot1", width = 1000, height = 600)),
                             
                         )
                 ),
@@ -52,7 +52,7 @@ ui <- fluidPage(
                 # Data table
                 tabItem(tabName = "tabla",
                         fluidRow(        
-                            titlePanel(h3("Tabla de datos")),
+                            titlePanel(h3("Tabla de datos de match.data.csv")),
                             dataTableOutput ("tabla")
                         )
                 ), 
