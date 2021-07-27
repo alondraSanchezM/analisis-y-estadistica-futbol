@@ -10,3 +10,8 @@
 * María Regina	Valencia Hernández
 * Antonio	Escajeda Garcia
 * David Armando	Uc Canul
+
+***
+### Link al video explicativo
+
+https://drive.google.com/file/d/1x-ouIXgQvM_mSjiudZYdd5hwtFBihEEP/view?usp=sharing
