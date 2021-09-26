@@ -1,3 +1,7 @@
+#---   Análisis a datos referentes a equipos de la liga española de fútbol   ---
+#Proyecto para el módulo de Programación y Estadística con R de BEDU
+
+
 library(lubridate)    # Trabajar con la fechas facilmente
 library(dplyr)        # Funciones select y mutate
 library(ggplot2)      # Graficar las probabilidades
@@ -338,6 +342,8 @@ suppressWarnings(chisq.test(freqAmbos))
 
 #POSTWORK 5
 
+#A continuación se usa la función predict para realizar predicciones de los resultados de partidos para una fecha determinada.
+
 #Selección de las columnas Date, HomeTeam, HomeScore, AwayTeam y AwayScore.
 Liga1718 <- select(Liga1718,Date,HomeTeam,FTHG,AwayTeam,FTAG)
 Liga1819 <- select(Liga1819,Date,HomeTeam,FTHG,AwayTeam,FTAG)
@@ -381,6 +387,8 @@ predict(ranking, date = fecha[n])
 # ------------------------------------------------------------------------------
 
 #POSTWORK 6
+
+#Observaciones a partir de series de tiempo
 
 #Importación de los datos.
 match.data <- read.csv("https://raw.githubusercontent.com/beduExpert/Programacion-R-Santander-2021/main/Sesion-06/Postwork/match.data.csv")
